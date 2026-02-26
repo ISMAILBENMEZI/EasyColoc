@@ -36,6 +36,7 @@ class StoreColocationRequest extends FormRequest
                         ->exists()
                 ),
             ],
+            
         ];
     }
 

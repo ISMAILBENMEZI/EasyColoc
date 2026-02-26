@@ -84,7 +84,7 @@
                         </div>
                     </a>
 
-                    <a href="#"
+                    <a href="{{ route('invitations.join.form') }}"
                        class="dashboard-card group relative overflow-hidden bg-white border border-slate-200 rounded-[2.5rem] p-8 transition-all hover:border-indigo-400 hover:shadow-2xl hover:shadow-indigo-100">
                         <div class="relative z-10">
                             <div class="icon-container h-14 w-14 rounded-2xl bg-indigo-600 flex items-center justify-center mb-6 transition-all duration-300">
@@ -99,7 +99,7 @@
                         </div>
                     </a>
                 @else
-                    <a href="#"
+                    <a href="{{ route('my_colocation.show') }}"
                        class="dashboard-card group md:col-span-2 relative overflow-hidden bg-white border border-slate-200 rounded-[3rem] p-10 transition-all hover:border-emerald-400 hover:shadow-2xl hover:shadow-emerald-100">
                         <div class="flex flex-col md:flex-row md:items-center justify-between gap-8">
                             <div class="flex items-center gap-6">
