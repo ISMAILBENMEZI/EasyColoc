@@ -99,7 +99,7 @@
                         </div>
 
                         <div class="flex items-center gap-3">
-                            <a href="#"
+                            <a href="{{ route('expenses.create') }}"
                                 class="inline-flex items-center gap-2 rounded-xl bg-slate-900 px-5 py-2.5 text-sm font-bold text-white hover:bg-slate-800 transition shadow-sm active:scale-95">
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
                                     stroke="currentColor" stroke-width="3" stroke-linecap="round"
@@ -224,36 +224,39 @@
                         @else
                             <div class="divide-y divide-slate-50">
                                 @foreach ($latestExpenses as $expense)
-                                    <div
-                                        class="px-8 py-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4 group hover:bg-slate-50/80 transition-colors">
-                                        <div class="flex items-center gap-4">
-                                            <div
-                                                class="h-12 w-12 rounded-xl bg-slate-900 flex flex-col items-center justify-center text-white shrink-0">
-                                                <span
-                                                    class="text-[10px] font-black uppercase tracking-tighter">{{ \Carbon\Carbon::parse($expense->date)->format('M') }}</span>
-                                                <span
-                                                    class="text-lg font-black leading-none">{{ \Carbon\Carbon::parse($expense->date)->format('d') }}</span>
-                                            </div>
-                                            <div>
-                                                <div class="flex items-center gap-2 mb-1">
-                                                    <h4 class="font-black text-slate-900">{{ $expense->title }}</h4>
-                                                    @if ($expense->category)
-                                                        <span
-                                                            class="text-[10px] font-bold bg-slate-100 px-2 py-0.5 rounded text-slate-500">{{ $expense->category->name }}</span>
-                                                    @endif
+                                    <a href="{{ route('expenses.show', $expense->id) }}" class="block group">
+                                        <div
+                                            class="px-8 py-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4 group hover:bg-slate-50/80 transition-colors">
+                                            <div class="flex items-center gap-4">
+                                                <div
+                                                    class="h-12 w-12 rounded-xl bg-slate-900 flex flex-col items-center justify-center text-white shrink-0">
+                                                    <span
+                                                        class="text-[10px] font-black uppercase tracking-tighter">{{ \Carbon\Carbon::parse($expense->date)->format('M') }}</span>
+                                                    <span
+                                                        class="text-lg font-black leading-none">{{ \Carbon\Carbon::parse($expense->date)->format('d') }}</span>
                                                 </div>
-                                                <p class="text-sm text-slate-400 font-medium">
-                                                    Paid by <span
-                                                        class="text-slate-600 font-bold">{{ $expense->payer?->name ?? 'Unknown' }}</span>
-                                                </p>
+                                                <div>
+                                                    <div class="flex items-center gap-2 mb-1">
+                                                        <h4 class="font-black text-slate-900">{{ $expense->title }}
+                                                        </h4>
+                                                        @if ($expense->category)
+                                                            <span
+                                                                class="text-[10px] font-bold bg-slate-100 px-2 py-0.5 rounded text-slate-500">{{ $expense->category->name }}</span>
+                                                        @endif
+                                                    </div>
+                                                    <p class="text-sm text-slate-400 font-medium">
+                                                        Paid by <span
+                                                            class="text-slate-600 font-bold">{{ $expense->payer?->name ?? 'Unknown' }}</span>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="text-right">
+                                                <div class="text-xl font-black text-slate-900">
+                                                    ${{ number_format((float) $expense->amount, 2) }}
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="text-right">
-                                            <div class="text-xl font-black text-slate-900">
-                                                ${{ number_format((float) $expense->amount, 2) }}
-                                            </div>
-                                        </div>
-                                    </div>
+                                    </a>
                                 @endforeach
                             </div>
                         @endif
