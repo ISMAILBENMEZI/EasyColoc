@@ -38,12 +38,20 @@ class MyColocationController extends Controller
                         ->limit(8)
                         ->get();
 
+        $activeMembers = Membership::with('user')
+                       ->where('colocation_id' , $colocation->id)
+                       ->whereNull('left_at')
+                       ->orderByRaw("CASE WHEN role='owner' THEN 0 ELSE 1 END")
+                       ->OrderBy('id')
+                       ->get();
+
         return view('colocations.my-colocations',[
             'membership' => $membership,
             'colocation' => $colocation,
             'membersCount' => $membersCount,
             'totalExpenses' => $totalExpenses,
             'latestExpenses' => $latestExpenses,
+            'activeMembers' => $activeMembers,
         ]);
     }
 }

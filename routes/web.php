@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Colocations\CategoryController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Colocations\ColocationController;
@@ -7,6 +8,7 @@ use App\Http\Controllers\Colocations\MyColocationController;
 use App\Http\Controllers\Colocations\MembershipController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Colocations\InvitationController;
+use App\Http\Controllers\Colocations\MemberController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -29,6 +31,10 @@ Route::middleware('auth')->group(function () {
     Route::post('/join', [InvitationController::class, 'joinSubmit'])->name('invitations.join.submit');
 
     Route::get('/invitations/accept/{token}', [InvitationController::class, 'acceptFromLink'])->name('invitations.accept.link');
+    Route::get('/members/{user}',[MemberController::class,'show'])->name('members.show');
+
+    Route::get('/categories/craete' , [CategoryController::class , 'create'])->name('categories.create');
+    Route::post('/categories' , [CategoryController::class , 'store'])->name('categories.store');
 });
 
 Route::view('/how-it-works', '/how-it-works')->name('how.works');
