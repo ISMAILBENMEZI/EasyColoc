@@ -35,7 +35,7 @@ class MyColocationController extends Controller
                         ->where('colocation_id' , $colocation->id)
                         ->orderByDesc('date')
                         ->orderByDesc('id')
-                        ->limit(8)
+                        ->limit(3)
                         ->get();
 
         $activeMembers = Membership::with('user')
