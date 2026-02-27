@@ -37,7 +37,7 @@ class InvitationController extends Controller
                 'email' => $request->validated('email'),
                 'token' => Str::random(40),
                 'status' => 'pending',
-                'expires_at' => now()->addDay(3),
+                'expires_at' => now()->addDays(3),
             ]);
 
             return $inv;
@@ -53,7 +53,7 @@ class InvitationController extends Controller
         return view('invitations.join');
     }
 
-    public function JoinSubmit(JoinWithTokenRequest $request)
+    public function joinSubmit(JoinWithTokenRequest $request)
     {
         return $this->acceptToken($request->validated('token'), $request->user()->id);
     }
@@ -87,7 +87,7 @@ class InvitationController extends Controller
             $invitation->status = 'expired';
             $invitation->save();
 
-            return back()->withErrors(['toekn' => 'This invitation has expired']);
+            return back()->withErrors(['token' => 'This invitation has expired']);
         }
 
         DB::transaction(function () use ($invitation, $userId) {

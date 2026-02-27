@@ -262,10 +262,10 @@
                             Share this workspace with your roommates to start splitting bills and managing home tasks
                             together.
                         </p>
-                        <button
-                            class="w-full py-4 rounded-2xl bg-white text-blue-600 font-black text-sm shadow-lg hover:bg-blue-50 transition-all">
+                        <a href="{{ route('invitations.create') }}"
+                            class="block text-center w-full py-4 rounded-2xl bg-white text-blue-600 font-black text-sm shadow-lg hover:bg-blue-50 transition-all">
                             Generate Invite Link
-                        </button>
+                        </a>
                     </div>
 
                     <div class="bg-white rounded-[2rem] p-8 border border-slate-100 shadow-sm">
