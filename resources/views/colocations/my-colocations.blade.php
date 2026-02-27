@@ -123,6 +123,11 @@
                                     </svg>
                                     Invite
                                 </a>
+
+                                <a href="{{ route('categories.create') }}"
+                                    class="inline-flex justify-center rounded-2xl bg-white border border-gray-200 px-6 py-3 text-sm font-bold text-slate-900 hover:bg-gray-50 transition">
+                                    Add Category
+                                </a>
                             @else
                                 <form method="POST" action="{{ route('colocations.leave') }}"
                                     onsubmit="return confirm('Are you sure you want to leave this colocation?');">
@@ -270,15 +275,29 @@
 
                     <div class="bg-white rounded-[2rem] p-8 border border-slate-100 shadow-sm">
                         <h3 class="font-black text-slate-900 mb-4">Active Members</h3>
+
                         <div class="space-y-4">
-                            <div class="flex items-center gap-3">
-                                <div
-                                    class="h-8 w-8 rounded-full bg-slate-100 flex items-center justify-center text-xs font-black text-slate-600 border-2 border-white shadow-sm italic">
-                                    {{ substr(auth()->user()->name, 0, 1) }}
-                                </div>
-                                <div class="text-sm font-bold text-slate-700">{{ auth()->user()->name }} <span
-                                        class="text-[10px] text-blue-500 ml-1">(You)</span></div>
-                            </div>
+                            @foreach ($activeMembers as $m)
+                                <a href="{{ route('members.show', $m->user_id) }}"
+                                    class="flex items-center gap-3 hover:bg-slate-50 rounded-2xl p-2 transition">
+                                    <div
+                                        class="h-8 w-8 rounded-full bg-slate-100 flex items-center justify-center text-xs font-black text-slate-600 border-2 border-white shadow-sm italic">
+                                        {{ strtoupper(substr($m->user->name, 0, 1)) }}
+                                    </div>
+
+                                    <div class="text-sm font-bold text-slate-700">
+                                        {{ $m->user->name }}
+
+                                        @if ($m->user_id === auth()->id())
+                                            <span class="text-[10px] text-blue-500 ml-1">(You)</span>
+                                        @endif
+
+                                        @if ($m->role === 'owner')
+                                            <span class="text-[10px] text-emerald-600 ml-2">(Owner)</span>
+                                        @endif
+                                    </div>
+                                </a>
+                            @endforeach
                         </div>
                     </div>
                 </div>
