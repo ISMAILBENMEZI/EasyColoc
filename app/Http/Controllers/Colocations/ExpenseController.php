@@ -24,7 +24,33 @@ class ExpenseController extends Controller
         if (!$membership) {
             return redirect()->route('dashboard')->with('status', 'No active colocation found');
         }
+
+        $colocationId = $membership->colocation_id;
+
+        $month = request('month');
+
+        $query = Expense::with(['payer', 'category'])
+            ->where('colocation_id', $colocationId)
+            ->orderByDesc('date')
+            ->orderByDesc('id');
+
+        if ($month) {
+            $year = substr($month, 0, 4);
+            $m = substr($month, 5, 2);
+
+            if ($year > 0 && $m >= 1 && $m <= 12) {
+                $query->whereYear('date', $year)->whereMonth('date', $m);
+            }
+        }
+
+        $expenses = $query->paginate(10)->withQuerystring();
+
+        return view('expenses.index', [
+            'expenses' => $expenses,
+            'month' => $month,
+        ]);
     }
+
     public function create()
     {
         $userId = Auth::id();
@@ -115,10 +141,6 @@ class ExpenseController extends Controller
             ->get();
 
         $membersCount = $members->count();
-
-        if ($membersCount == 0) {
-            $membersCount = 1;
-        }
 
         $share = $expense->amount / $membersCount;
 

@@ -206,7 +206,10 @@
                         <div
                             class="px-8 py-6 border-b border-slate-50 flex items-center justify-between bg-slate-50/50">
                             <h2 class="text-xl font-black tracking-tight">Latest Expenses</h2>
-                            <button class="text-sm font-bold text-blue-600 hover:text-blue-700">View All</button>
+                            <a href="{{ route('expenses.index') }}"
+                                class="text-sm font-bold text-blue-600 hover:text-blue-700">
+                                View All
+                            </a>
                         </div>
 
                         @if ($latestExpenses->isEmpty())
