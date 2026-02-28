@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminStatsController;
+use App\Http\Controllers\Admin\AdminUsersController;
 use App\Http\Controllers\Colocations\CategoryController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -18,7 +20,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'role:user'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -57,6 +59,14 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/colocations/archived', [ArchivedColocationController::class, 'index'])->name('colocations.archived.index');
     Route::get('/colocations/archived/{colocation}', [ArchivedColocationController::class, 'show'])->name('colocations.archived.show');
+});
+
+Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
+    Route::get('/stats', [AdminStatsController::class, 'index'])->name('admin.stats');
+
+    Route::get('/users', [AdminUsersController::class, 'index'])->name('admin.users');
+    Route::post('/users/{user}/ban', [AdminUsersController::class, 'ban'])->name('admin.users.ban');
+    Route::post('/users/{user}/unban', [AdminUsersController::class, 'unban'])->name('admin.users.unban');
 });
 
 Route::view('/how-it-works', '/how-it-works')->name('how.works');
