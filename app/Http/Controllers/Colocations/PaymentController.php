@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Colocations;
 
 use App\Http\Controllers\Controller;
 use App\Models\ExpenseDebt;
+use App\Models\Membership;
 use App\Models\Payment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -23,6 +24,14 @@ class PaymentController extends Controller
             return back()->with('status', 'This debt is already paid.');
         }
 
+        $membership = Membership::where('user_id', $userId)
+            ->whereNull('left_at')
+            ->first();
+
+        if ($membership->colocation->status !== 'active') {
+            return redirect()->route('dashboard')->with('status', 'This colocation is inactive.');
+        }
+
         DB::transaction(function () use ($debt, $userId) {
             $debt->status = 'paid';
             $debt->paid_at = now();
@@ -35,7 +44,6 @@ class PaymentController extends Controller
                 'amount' => $debt->amount,
                 'paid_at' => now(),
             ]);
-
         });
 
         return redirect()->route('debts.index')->with('status', 'Payment marked as paid!');

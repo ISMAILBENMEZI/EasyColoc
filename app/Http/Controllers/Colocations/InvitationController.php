@@ -19,6 +19,15 @@ class InvitationController extends Controller
 {
     public function create()
     {
+        $userId = Auth::id();
+
+        $membership = Membership::where('user_id', $userId)
+            ->whereNull('left_at')
+            ->first();
+            
+        if ($membership->colocation->status !== 'active') {
+            return redirect()->route('dashboard')->with('status', 'This colocation is inactive.');
+        }
         return view('invitations.create');
     }
 
@@ -29,6 +38,10 @@ class InvitationController extends Controller
         $ownerMembership = Membership::where('user_id', $userId)
             ->whereNull('left_at')
             ->first();
+
+        if ($ownerMembership->colocation->status !== 'active') {
+            return redirect()->route('dashboard')->with('status', 'This colocation is inactive.');
+        }
 
         $invitation = DB::transaction(function () use ($request, $ownerMembership, $userId) {
             $inv = Invitation::create([

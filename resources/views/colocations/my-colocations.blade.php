@@ -128,8 +128,18 @@
                                     class="inline-flex justify-center rounded-2xl bg-white border border-gray-200 px-6 py-3 text-sm font-bold text-slate-900 hover:bg-gray-50 transition">
                                     Add Category
                                 </a>
+
+                                @if ($membership->role === 'owner' && $colocation->status === 'active')
+                                    <form method="POST" action="{{ route('colocation.deactivate') }}">
+                                        @csrf
+                                        <button type="submit"
+                                            class="w-full py-4 rounded-2xl bg-slate-900 text-white font-black text-sm hover:bg-slate-800 transition">
+                                            Deactivate Colocation
+                                        </button>
+                                    </form>
+                                @endif
                             @else
-                                <form method="POST" action="{{ route('colocations.leave') }}"
+                                <form method="POST" action="{{ route('colocation.leave') }}"
                                     onsubmit="return confirm('Are you sure you want to leave this colocation?');">
                                     @csrf
                                     <button type="submit"

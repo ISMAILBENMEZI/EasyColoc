@@ -15,6 +15,7 @@ class Membership extends Model
         'role',
         'joined_at',
         'left_at',
+        'left_reason',
     ];
 
     protected $casts = [

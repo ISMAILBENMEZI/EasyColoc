@@ -31,9 +31,17 @@ class MemberController extends Controller
             return redirect()->route('my_colocation.show')->with('status', 'Member not found in your colocation.');
         }
 
-        return view('members.show',[
-            'user' =>$user,
+        $ownerMembership = Membership::where('colocation_id', $myMembership->colocation_id)
+            ->whereNull('left_at')
+            ->where('role', 'owner')
+            ->first();
+
+        $ownerId = $ownerMembership?->user_id;
+
+        return view('members.show', [
+            'user' => $user,
             'targetMembership' => $targetMembership,
+            'ownerId' => $ownerId,
         ]);
     }
 }
