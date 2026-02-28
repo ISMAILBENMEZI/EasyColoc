@@ -24,6 +24,10 @@ class CategoryController extends Controller
             ->whereNull('left_at')
             ->first();
 
+        if ($membership->colocation->status !== 'active') {
+            return redirect()->route('dashboard')->with('status', 'This colocation is inactive.');
+        }
+
         Category::create([
             'name' => $request->validated('name'),
             'colocation_id' => $membership->colocation_id,

@@ -53,20 +53,18 @@ class MyColocationController extends Controller
             $balances[$m->user_id] = 0.0;
         }
 
-        $expenses = Expense::where('colocation_id', $colocation->id)->get();
+        // $expenses = Expense::where('colocation_id', $colocation->id)->get();
+        $debts = ExpenseDebt::where('status', 'pending')
+            ->whereHas('expense', fn($q) => $q->where('colocation_id', $colocation->id))
+            ->get();
 
+        foreach ($debts as $d) {
+            if (isset($balances[$d->from_user_id])) {
+                $balances[$d->from_user_id] -= $d->amount;
+            }
 
-
-        foreach ($expenses as $e) {
-            $share = $e->amount / $membersCount;
-            foreach ($activeMembers as $m) {
-                $uid = $m->user_id;
-
-                if ($uid == $e->payer_id) {
-                    $balances[$uid] += $e->amount - $share;
-                } else {
-                    $balances[$uid] -= $share;
-                }
+            if (isset($balances[$d->to_user_id])) {
+                $balances[$d->to_user_id] += $d->amount;
             }
         }
 
@@ -92,12 +90,12 @@ class MyColocationController extends Controller
             ];
         }
 
-        $totalDebts = ExpenseDebt::where('from_user_id' , $userId)
-                    ->where('status','pending')
-                    ->whereHas('expense',function ($q) use($colocation){
-                        $q->where('colocation_id',$colocation->id);
-                    })
-                    ->sum('amount');
+        $totalDebts = ExpenseDebt::where('from_user_id', $userId)
+            ->where('status', 'pending')
+            ->whereHas('expense', function ($q) use ($colocation) {
+                $q->where('colocation_id', $colocation->id);
+            })
+            ->sum('amount');
 
         return view('colocations.my-colocations', [
             'membership' => $membership,
@@ -107,7 +105,7 @@ class MyColocationController extends Controller
             'latestExpenses' => $latestExpenses,
             'activeMembers' => $activeMembers,
             'memberBalances' => $memberBalances,
-            'myTotalDebt'=>$totalDebts,
+            'myTotalDebt' => $totalDebts,
         ]);
     }
 }

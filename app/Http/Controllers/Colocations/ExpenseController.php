@@ -44,7 +44,7 @@ class ExpenseController extends Controller
             }
         }
 
-        $expenses = $query->paginate(10)->withQuerystring();
+        $expenses = $query->paginate(5)->withQuerystring();
 
         return view('expenses.index', [
             'expenses' => $expenses,
@@ -96,6 +96,10 @@ class ExpenseController extends Controller
 
         if (!$membership) {
             return redirect()->route('dashboard')->with('status', 'No active colocation found');
+        }
+
+        if ($membership->colocation->status !== 'active') {
+            return redirect()->route('dashboard')->with('status', 'This colocation is inactive.');
         }
 
         $data = $request->validated();

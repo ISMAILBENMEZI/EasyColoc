@@ -14,6 +14,8 @@ class DashboardController extends Controller
                         ->where('user_id',Auth::id())
                         ->whereNull('left_at')
                         ->first();
+
+        
         return view('dashboard',[
             'activeMembership' => $activeMembership,
             'activeColocation' => $activeMembership?->colocation,

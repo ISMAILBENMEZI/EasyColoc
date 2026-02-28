@@ -90,16 +90,53 @@
                     </div>
 
                     <div class="grid grid-cols-2 gap-5">
-                        <div class="p-5 rounded-2xl bg-slate-50/50 border border-slate-100">
+                        <div
+                            class="p-5 rounded-2xl border transition-all 
+    @if ($user->reputation > 0) bg-emerald-50/50 border-emerald-100 
+    @elseif($user->reputation < 0) bg-red-50/50 border-red-100 
+    @else bg-slate-50/50 border-slate-100 @endif">
+
                             <p class="text-[11px] font-black text-slate-400 uppercase tracking-tight mb-2">Reputation
                             </p>
-                            <div class="flex items-center gap-2.5 text-slate-900 font-black text-2xl tracking-tighter">
-                                <svg width="22" height="22" viewBox="0 0 24 24" fill="#fbbf24" stroke="#fbbf24">
-                                    <polygon
-                                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-                                </svg>
-                                {{ $user->reputation }}
+
+                            <div
+                                class="flex items-center gap-2.5 font-black text-2xl tracking-tighter
+        @if ($user->reputation > 0) text-emerald-600 
+        @elseif($user->reputation < 0) text-red-600 
+        @else text-slate-900 @endif">
+
+                                @if ($user->reputation > 0)
+                                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+                                        stroke="currentColor" stroke-width="3">
+                                        <polyline points="18 15 12 9 6 15"></polyline>
+                                    </svg>
+                                @elseif($user->reputation < 0)
+                                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+                                        stroke="currentColor" stroke-width="3">
+                                        <polyline points="6 9 12 15 18 9"></polyline>
+                                    </svg>
+                                @else
+                                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+                                        stroke="currentColor" stroke-width="3">
+                                        <circle cx="12" cy="12" r="10"></circle>
+                                        <line x1="8" y1="12" x2="16" y2="12"></line>
+                                    </svg>
+                                @endif
+
+                                {{ $user->reputation > 0 ? '+' : '' }}{{ $user->reputation }}
                             </div>
+
+                            <p class="mt-1 text-[9px] font-bold uppercase tracking-widest opacity-60">
+                                @if ($user->reputation > 50)
+                                    Trustworthy Member
+                                @elseif($user->reputation > 0)
+                                    Good Standing
+                                @elseif($user->reputation < 0)
+                                    Needs Improvement
+                                @else
+                                    Neutral Standing
+                                @endif
+                            </p>
                         </div>
 
                         <div class="p-5 rounded-2xl bg-slate-50/50 border border-slate-100">
@@ -110,6 +147,23 @@
                         </div>
                     </div>
                 </div>
+
+                @if (auth()->id() === $ownerId && $targetMembership->role !== 'owner')
+                    <div class="mt-8">
+                        <form method="POST" action="{{ route('members.kick', $user->id) }}">
+                            @csrf
+                            <button type="submit"
+                                class="w-full py-4 rounded-2xl bg-red-600 text-white font-black text-sm shadow-lg hover:bg-red-700 transition-all">
+                                Kick Member
+                            </button>
+                        </form>
+
+                        <p class="mt-3 text-[11px] font-semibold text-slate-400 text-center">
+                            The member will leave the colocation and their pending debts will be transferred to the
+                            owner.
+                        </p>
+                    </div>
+                @endif
 
                 <div class="mt-10 text-center">
                     <p class="text-[11px] font-bold text-slate-300 uppercase tracking-widest">

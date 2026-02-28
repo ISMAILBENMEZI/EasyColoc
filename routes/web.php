@@ -12,6 +12,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Colocations\InvitationController;
 use App\Http\Controllers\Colocations\MemberController;
 use App\Http\Controllers\Colocations\PaymentController;
+use App\Http\Controllers\Colocations\ArchivedColocationController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -49,6 +50,13 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/debts', [DebtController::class, 'index'])->name('debts.index');
     Route::post('/debts/{debt}/pay', [PaymentController::class, 'payDebt'])->name('debts.pay');
+
+    Route::post('/colocation/leave', [MembershipController::class, 'leave'])->name('colocation.leave');
+    Route::post('/members/{user}/kick', [MembershipController::class, 'kick'])->name('members.kick');
+    Route::post('/colocation/deactivate', [ColocationController::class, 'deactivate'])->name('colocation.deactivate');
+
+    Route::get('/colocations/archived', [ArchivedColocationController::class, 'index'])->name('colocations.archived.index');
+    Route::get('/colocations/archived/{colocation}', [ArchivedColocationController::class, 'show'])->name('colocations.archived.show');
 });
 
 Route::view('/how-it-works', '/how-it-works')->name('how.works');
