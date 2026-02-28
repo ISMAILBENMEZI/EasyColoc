@@ -36,11 +36,16 @@ class Expense extends Model
 
     public function creator()
     {
-        return $this->belongsTo(User::class , 'created_by');
+        return $this->belongsTo(User::class, 'created_by');
     }
 
     public function payer()
     {
         return $this->belongsTo(User::class, 'payer_id');
+    }
+
+    public function debts()
+    {
+        return $this->hasMany(ExpenseDebt::class);
     }
 }

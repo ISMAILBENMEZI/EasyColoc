@@ -4,12 +4,14 @@ use App\Http\Controllers\Colocations\CategoryController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Colocations\ColocationController;
+use App\Http\Controllers\Colocations\DebtController;
 use App\Http\Controllers\Colocations\ExpenseController;
 use App\Http\Controllers\Colocations\MyColocationController;
 use App\Http\Controllers\Colocations\MembershipController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Colocations\InvitationController;
 use App\Http\Controllers\Colocations\MemberController;
+use App\Http\Controllers\Colocations\PaymentController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -44,6 +46,9 @@ Route::middleware('auth')->group(function () {
     Route::post('/expenses', [ExpenseController::class, 'store'])->name('expenses.store');
     Route::get('/expenses/{expense}', [ExpenseController::class, 'show'])->name('expenses.show');
     Route::get('/expenses', [ExpenseController::class, 'index'])->name('expenses.index');
+
+    Route::get('/debts', [DebtController::class, 'index'])->name('debts.index');
+    Route::post('/debts/{debt}/pay', [PaymentController::class, 'payDebt'])->name('debts.pay');
 });
 
 Route::view('/how-it-works', '/how-it-works')->name('how.works');

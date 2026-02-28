@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Colocation\StoreExpenseRequest;
 use App\Models\Category;
 use App\Models\Expense;
+use App\Models\ExpenseDebt;
 use App\Models\Membership;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -100,7 +101,7 @@ class ExpenseController extends Controller
         $data = $request->validated();
 
         $expense = DB::transaction(function () use ($data, $membership, $userId) {
-            return Expense::create([
+            $expense = Expense::create([
                 'colocation_id' => $membership->colocation_id,
                 'category_id' => $data['category_id'] ?? null,
                 'payer_id' => $data['payer_id'],
@@ -109,6 +110,29 @@ class ExpenseController extends Controller
                 'amount' => $data['amount'],
                 'date' => $data['date'],
             ]);
+
+            $members = Membership::where('colocation_id', $membership->colocation_id)
+                ->whereNull('left_at')
+                ->get();
+
+            $count = $members->count();
+
+            $share = $expense->amount / $count;
+
+            foreach ($members as $m) {
+                if ($m->user_id != $expense->payer_id) {
+                    ExpenseDebt::create([
+                        'expense_id' => $expense->id,
+                        'from_user_id' => $m->user_id,
+                        'to_user_id' => $expense->payer_id,
+                        'amount' => $share,
+                        'status' => 'pending',
+                        'paid_at' => null,
+                    ]);
+                }
+            }
+
+            return $expense;
         });
 
         return redirect()->route('expenses.show', $expense->id)

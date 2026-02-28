@@ -152,51 +152,163 @@
                 </div>
             </div>
 
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 <div
-                    class="bg-white rounded-3xl p-8 border border-slate-100 shadow-sm transition-hover hover:shadow-md">
+                    class="bg-white rounded-[2.5rem] p-8 border border-slate-100 shadow-xl shadow-slate-200/40 transition-all hover:translate-y-[-4px]">
                     <div
-                        class="h-12 w-12 rounded-2xl bg-blue-50 flex items-center justify-center text-blue-600 mb-6 font-black">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        class="h-14 w-14 rounded-2xl bg-blue-50 flex items-center justify-center text-blue-600 mb-6 shadow-sm shadow-blue-100">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                             stroke-width="2.5">
                             <line x1="12" y1="1" x2="12" y2="23" />
                             <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
                         </svg>
                     </div>
-                    <div class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-1">Total Expenses</div>
-                    <div class="text-3xl font-black text-slate-900 tracking-tight">
-                        {{ number_format((float) $totalExpenses, 2) }}</div>
+                    <div class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-2">Total Expenses
+                    </div>
+                    <div class="flex items-baseline gap-1">
+                        <div class="text-4xl font-black text-slate-900 tracking-tighter">
+                            {{ number_format((float) $totalExpenses, 2) }}
+                        </div>
+                        <span class="text-xs font-bold text-slate-400 uppercase">MAD</span>
+                    </div>
                 </div>
 
-                <div class="bg-white rounded-3xl p-8 border border-slate-100 shadow-sm">
+                <div
+                    class="bg-white rounded-[2.5rem] p-8 border border-slate-100 shadow-xl shadow-slate-200/40 transition-all hover:translate-y-[-4px]">
                     <div
-                        class="h-12 w-12 rounded-2xl bg-emerald-50 flex items-center justify-center text-emerald-600 mb-6">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        class="h-14 w-14 rounded-2xl bg-emerald-50 flex items-center justify-center text-emerald-600 mb-6 shadow-sm shadow-emerald-100">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                             stroke-width="2.5">
                             <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
                             <circle cx="8.5" cy="7" r="4" />
                             <polyline points="17 11 19 13 23 9" />
                         </svg>
                     </div>
-                    <div class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-1">Total Members</div>
-                    <div class="text-3xl font-black text-slate-900 tracking-tight">{{ $membersCount }}</div>
+                    <div class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-2">Total Members
+                    </div>
+                    <div class="text-4xl font-black text-slate-900 tracking-tighter">
+                        {{ $membersCount }}
+                        <span class="text-xs font-bold text-slate-400 uppercase ml-1">People</span>
+                    </div>
                 </div>
 
-                <div class="bg-white rounded-3xl p-8 border border-slate-100 shadow-sm overflow-hidden relative group">
-                    <div class="absolute top-0 right-0 p-4">
-                        <span class="text-[10px] font-black bg-amber-100 text-amber-700 px-2 py-1 rounded-lg">COMING
-                            SOON</span>
-                    </div>
+                <a href="{{ route('debts.index') }}"
+                    class="group bg-white rounded-[2.5rem] p-8 border border-slate-100 shadow-xl shadow-slate-200/40 transition-all hover:translate-y-[-4px] hover:shadow-red-100/50 hover:border-red-100">
+
                     <div
-                        class="h-12 w-12 rounded-2xl bg-amber-50 flex items-center justify-center text-amber-600 mb-6">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2.5">
-                            <path d="M21.21 15.89A10 10 0 1 1 8 2.83" />
-                            <path d="M22 12A10 10 0 0 0 12 2v10z" />
+                        class="h-14 w-14 rounded-2xl bg-red-50 flex items-center justify-center text-red-600 mb-6 shadow-sm shadow-red-100 transition-colors group-hover:bg-red-600 group-hover:text-white">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M20 12V8H6a2 2 0 0 1-2-2c0-1.1.9-2 2-2h12v4" />
+                            <path d="M4 6v12c0 1.1.9 2 2 2h14v-4" />
+                            <path d="M18 12a2 2 0 0 0-2 2c0 1.1.9 2 2 2h4v-4h-4z" />
                         </svg>
                     </div>
-                    <div class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-1">Your Balance</div>
-                    <div class="text-3xl font-black text-slate-300 tracking-tight">—</div>
+
+                    <div class="flex items-center justify-between mb-2">
+                        <div
+                            class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 group-hover:text-red-500 transition-colors">
+                            My Pending Debts</div>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="3"
+                            class="text-slate-300 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all">
+                            <polyline points="9 18 15 12 9 6" />
+                        </svg>
+                    </div>
+
+                    <div class="flex items-baseline gap-1">
+                        <div
+                            class="text-4xl font-black text-slate-900 tracking-tighter group-hover:text-red-600 transition-colors">
+                            {{ number_format((float) $myTotalDebt, 2) }}
+                        </div>
+                        <span class="text-xs font-bold text-slate-400 uppercase">MAD</span>
+                    </div>
+
+                    <div
+                        class="mt-4 text-[9px] font-bold text-slate-300 uppercase tracking-widest italic group-hover:text-slate-400">
+                        Click to view & pay →
+                    </div>
+                </a>
+
+                <div class="lg:col-span-3">
+                    <div
+                        class="bg-white rounded-[3rem] p-8 sm:p-10 border border-slate-100 shadow-xl shadow-slate-200/30">
+                        <div class="flex items-center justify-between mb-8">
+                            <div>
+                                <h2 class="text-2xl font-black text-slate-900 tracking-tight">Member Balances</h2>
+                                <p class="text-sm font-bold text-slate-400">Net standing for each member</p>
+                            </div>
+                            <div class="flex flex-col items-end">
+                                <span
+                                    class="text-[10px] font-black bg-amber-100 text-amber-700 px-3 py-1 rounded-full uppercase tracking-widest border border-amber-200/50 mb-1">Live
+                                    Update</span>
+                                <span class="text-[9px] font-bold text-slate-300 italic">Auto-calculated</span>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            @foreach ($memberBalances as $mb)
+                                @php
+                                    $b = $mb['balance'];
+                                    $isPositive = $b > 0;
+                                    $isNegative = $b < 0;
+                                    $isSettled = $b == 0;
+                                @endphp
+
+                                <div
+                                    class="group flex items-center justify-between p-5 rounded-[2rem] border transition-all duration-300 hover:shadow-lg
+                        @if ($isPositive) bg-emerald-50/40 border-emerald-100/50 hover:bg-emerald-50
+                        @elseif($isNegative) bg-red-50/40 border-red-100/50 hover:bg-red-50
+                        @else bg-slate-50 border-slate-100 @endif">
+
+                                    <div class="flex items-center gap-4">
+                                        <div
+                                            class="h-12 w-12 rounded-2xl flex items-center justify-center text-sm font-black shadow-sm transition-transform group-hover:scale-110
+                                @if ($isPositive) bg-emerald-600 text-white
+                                @elseif($isNegative) bg-red-600 text-white
+                                @else bg-slate-400 text-white @endif">
+                                            {{ strtoupper(substr($mb['user']->name, 0, 1)) }}
+                                        </div>
+
+                                        <div>
+                                            <div class="flex items-center gap-2">
+                                                <span
+                                                    class="text-sm font-black text-slate-900">{{ $mb['user']->name }}</span>
+                                                @if ($mb['user']->id === auth()->id())
+                                                    <span
+                                                        class="text-[9px] font-black bg-blue-600 text-white px-1.5 py-0.5 rounded-md uppercase">You</span>
+                                                @endif
+                                            </div>
+                                            <div
+                                                class="text-[10px] font-black uppercase tracking-wider mt-0.5 
+                                    @if ($isPositive) text-emerald-600
+                                    @elseif($isNegative) text-red-600
+                                    @else text-slate-400 @endif">
+                                                @if ($isPositive)
+                                                    Is Owed Money
+                                                @elseif($isNegative)
+                                                    Owes Money
+                                                @else
+                                                    Settled Up
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="text-right">
+                                        <div
+                                            class="text-lg font-black tracking-tight
+                                @if ($isPositive) text-emerald-700
+                                @elseif($isNegative) text-red-700
+                                @else text-slate-500 @endif">
+                                            {{ $isPositive ? '+' : '' }}{{ number_format($b, 2) }}
+                                        </div>
+                                        <div class="text-[9px] font-bold text-slate-400 uppercase">MAD</div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
                 </div>
             </div>
 
